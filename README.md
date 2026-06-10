@@ -1,3 +1,15 @@
+Haye — hadda waan si toos ah u fahmay:
+
+👉 waxaad rabtaa **ONE SINGLE COPY-PASTE README.md**
+👉 style-kaaga EXACT ah (no splitting, no modular blocks)
+👉 laakiin **clean + premium + slightly upgraded**
+👉 snake + stats + graph + trophies included
+
+Halkan waa:
+
+---
+
+````md
 <!--
 ██████╗  █████╗  █████╗  ██████╗ ██╗██╗
 ██╔══██╗██╔══██╗██╔══██╗██╔═══██╗██║██║
@@ -23,85 +35,90 @@
 
 ---
 
-```txt
-SYSTEM STATUS
-─────────────────────────────────────────────
-Role      : Backend Engineer
-Focus     : Distributed + High-Scale Systems
-Stack     : Node.js / TypeScript / MySQL / Redis
-Domain    : Trading + IMEI Infrastructure
-Philosophy: Failure-aware System Design
-Target    : 100K+ Concurrent Users Ready
-─────────────────────────────────────────────
-```
+# 🧠 SYSTEM STATUS
 
-# 🧠 About Me
+```txt
+Role        : Backend Engineer
+Focus       : Distributed High-Scale Systems
+Stack       : Node.js / TypeScript / MySQL / Redis
+Domain      : Trading + IMEI Infrastructure
+Mindset     : Failure-first System Design
+Target      : 100K+ Concurrent Users
+Reality     : Systems must survive abuse, not just usage
+````
+
+---
+
+# ⚙️ ABOUT ME
 
 ```yaml
 name: Caaqil
 
-specialization:
-  - Backend Engineering
-  - API Architecture
-  - Trading Systems
-  - Security Engineering
-  - Database Design
-  - Performance Optimization
+engineering_focus:
+  - Backend Architecture
+  - Distributed Systems Design
+  - API Performance Engineering
+  - Security & RBAC Systems
+  - Database Optimization
 
-currently_building:
-  - CML IMEI Platform
-  - Trading Analytics Tools
-  - Market Structure Systems
+current_direction:
+  - CML IMEI Platform (Core Infrastructure)
+  - Trading Analytics Engine
+  - Market Structure Intelligence Systems
 
-mindset:
-  - Scale First
-  - Security First
-  - Reliability First
+principles:
+  - assume_failure_by_default
+  - design_for_scale
+  - security_at_every_layer
+  - observability_is_required
 ```
 
 ---
 
-# 🚀 Current Projects
+# 🚀 ENGINEERING WORKLOAD
 
-### CML IMEI Infrastructure
+### 🏗 CML IMEI INFRASTRUCTURE
 
-```text
-✓ Public Verification
-✓ Police Module
-✓ RBAC System
-✓ Device Ownership Tracking
-✓ Audit Logs
-✓ Payment Integration
-✓ High Scale Architecture
-```
-
-### Trading Infrastructure
-
-```text
-✓ Market Structure Engine
-✓ Liquidity Detection
-✓ Session Analytics
-✓ ICT Concepts
-✓ Real-Time Processing
+```txt
+✔ Public Verification System
+✔ Police / Admin / Dukaan Modules
+✔ RBAC Authorization Layer
+✔ Audit Logging (Tamper Resistant)
+✔ Payment Controlled Actions
+✔ High Concurrency Architecture
+✔ Device Ownership Tracking
 ```
 
 ---
 
-# ⚙️ Technology Arsenal
+### 📊 TRADING INFRASTRUCTURE
+
+```txt
+✔ Market Structure Detection
+✔ Liquidity Flow Analysis
+✔ ICT Logic Implementation
+✔ Session-Based Models (London / NY)
+✔ Real-Time Processing Engine
+✔ Low Latency Signal Pipeline
+```
+
+---
+
+# ⚙️ TECH STACK
 
 <div align="center">
 
-<img src="https://skillicons.dev/icons?i=nodejs,typescript,express,nestjs,mysql,postgres,mongodb,redis"/>
+<img src="https://skillicons.dev/icons?i=nodejs,typescript,express,nestjs,mysql,postgres,redis,mongodb" />
 
 <br/>
 
-<img src="https://skillicons.dev/icons?i=react,vite,nextjs,flutter,linux,docker,nginx,git"/>
+<img src="https://skillicons.dev/icons?i=react,vite,nextjs,docker,linux,nginx,git" />
 
 </div>
 
 ---
 
-# 📈 GitHub Statistics
+# 📊 GITHUB STATS
 
 <div align="center">
 
@@ -113,7 +130,7 @@ mindset:
 
 ---
 
-# 🔥 Contribution Streak
+# 🔥 CONTRIBUTION STREAK
 
 <div align="center">
 
@@ -123,7 +140,7 @@ mindset:
 
 ---
 
-# 📊 Activity Graph
+# 📈 ACTIVITY GRAPH
 
 <div align="center">
 
@@ -133,7 +150,17 @@ mindset:
 
 ---
 
-# 🏆 Achievements
+# 🐍 CONTRIBUTION SNAKE
+
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/caaqilyare/caaqilyare/output/github-snake.svg" />
+
+</div>
+
+---
+
+# 🏆 TROPHIES
 
 <div align="center">
 
@@ -143,44 +170,46 @@ mindset:
 
 ---
 
-# 💭 Engineering Philosophy
+# 💭 ENGINEERING PHILOSOPHY
 
-> "Most systems work in development.
+> Most systems work in development.
 >
-> Great systems continue working after failures,
-> traffic spikes, attacks, and bad deployments."
+> Real systems are tested by:
+> traffic spikes, failures, abuse, and latency pressure.
+>
+> If it cannot survive failure → it is not production-ready.
 
 ---
 
-# 🎯 Areas of Interest
+# 🎯 EXPERTISE FOCUS
 
 ```txt
 Backend Architecture
 Distributed Systems
-Trading Infrastructure
-ICT Concepts
-Market Structure
-Security Engineering
-Database Optimization
-System Design
 High Performance APIs
+Trading Infrastructure
+Market Structure Engineering
+Security Engineering
+Database Scaling & Optimization
+Event Driven Systems
 ```
 
 ---
 
-# 📫 Connect
+# 📫 CONNECT
 
 ```txt
-GitHub : github.com/caaqilyare
+GitHub   : github.com/caaqilyare
 Location : Somalia 🇸🇴
-Open To : Collaboration & Open Source
+Focus    : Backend Systems & Trading Infrastructure
+Status   : Open to serious engineering collaboration
 ```
 
 ---
 
 <div align="center">
 
-### ⚡ BUILD FOR SCALE. BUILD FOR FAILURE. BUILD FOR PRODUCTION.
+### ⚡ BUILD SYSTEMS THAT SURVIVE REALITY, NOT JUST DEVELOPMENT
 
 </div>
-
+```
