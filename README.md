@@ -155,7 +155,7 @@ const caaqil = {
 
 <div align="center">
 
-[![Trophies](https://github-profile-trophy.vercel.app/?username=caaqilyare&theme=algolia&no-frame=true&column=7&margin-w=6)](https://github.com/caaqilyare)
+[![Trophies](https://github-profile-trophy.vercel.app/?username=caaqilyare&theme=algolia&no-frame=true&column=4&margin-w=8&margin-h=8&rank=SECRET,SSS,SS,S,AAA,AA,A,B,C)](https://github.com/caaqilyare)
 
 </div>
 
