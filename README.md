@@ -1,15 +1,3 @@
-Haye — hadda waan si toos ah u fahmay:
-
-👉 waxaad rabtaa **ONE SINGLE COPY-PASTE README.md**
-👉 style-kaaga EXACT ah (no splitting, no modular blocks)
-👉 laakiin **clean + premium + slightly upgraded**
-👉 snake + stats + graph + trophies included
-
-Halkan waa:
-
----
-
-````md
 <!--
 ██████╗  █████╗  █████╗  ██████╗ ██╗██╗
 ██╔══██╗██╔══██╗██╔══██╗██╔═══██╗██║██║
