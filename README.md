@@ -119,7 +119,7 @@ const caaqil = {
 ---
 
 ## `$ cat /etc/trophies.conf`
-
+ 
 <div align="center">
 
 [![Trophies](https://github-profile-trophy.vercel.app/?username=caaqilyare&theme=algolia&no-frame=true&column=4&margin-w=8&margin-h=8)](https://github.com/caaqilyare)
