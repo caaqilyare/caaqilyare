@@ -1,23 +1,22 @@
 <div align="center">
 
-<!-- HEADER BANNER -->
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:0d1117,50:0e4429,100:00ff88&height=200&section=header&text=CAAQIL&fontSize=80&fontColor=00ff88&fontAlignY=40&desc=Backend%20Engineer%20%E2%80%A2%20Systems%20Architect%20%E2%80%A2%20Somalia%20%F0%9F%87%B8%F0%9F%87%B4&descAlignY=65&descSize=16&descColor=8b949e&animation=fadeIn" />
+<a href="https://caaqilyare.github.io">
+  <img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:010409,40:0e4429,100:00ff88&height=220&section=header&text=CAAQIL&fontSize=90&fontColor=00ff88&fontAlignY=42&desc=Backend%20Engineer%20%E2%80%A2%20Systems%20Architect%20%E2%80%A2%20Somalia%20%F0%9F%87%B8%F0%9F%87%B4&descAlignY=65&descSize=15&descColor=8b949e&animation=fadeIn" />
+</a>
 
-</div>
+<br/>
 
-<div align="center">
+### ⚡ [→ caaqilyare.github.io](https://caaqilyare.github.io) — Full Portfolio & Interactive Terminal
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=22&duration=2500&pause=1000&color=00FF88&center=true&vCenter=true&width=900&lines=Building+Scalable+Distributed+Systems;Node.js+%7C+TypeScript+%7C+MySQL+%7C+Redis;Trading+Infrastructure+%7C+IMEI+Platforms;Systems+That+Survive+Reality%2C+Not+Just+Development)](https://github.com/caaqilyare)
+<br/>
 
-</div>
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=20&duration=2500&pause=1000&color=00FF88&center=true&vCenter=true&width=860&lines=Building+Scalable+Distributed+Systems;Node.js+%7C+TypeScript+%7C+MySQL+%7C+Redis;Trading+Infrastructure+%7C+IMEI+Platforms;Systems+That+Survive+Reality%2C+Not+Just+Development)](https://caaqilyare.github.io)
 
----
-
-<div align="center">
+<br/>
 
 [![Profile Views](https://komarev.com/ghpvc/?username=caaqilyare&style=for-the-badge&color=0e7636&label=PROFILE+VIEWS)](https://github.com/caaqilyare)
 [![GitHub followers](https://img.shields.io/github/followers/caaqilyare?style=for-the-badge&color=0e7636&labelColor=0d1117&label=FOLLOWERS)](https://github.com/caaqilyare?tab=followers)
-[![GitHub Stars](https://img.shields.io/github/stars/caaqilyare?style=for-the-badge&color=0e7636&labelColor=0d1117&label=TOTAL+STARS)](https://github.com/caaqilyare)
+[![Repos](https://img.shields.io/badge/REPOS-43-0e7636?style=for-the-badge&labelColor=0d1117)](https://github.com/caaqilyare?tab=repositories)
 
 </div>
 
@@ -31,17 +30,14 @@ const caaqil = {
   alias       : "Caaqil",
   location    : "Somalia 🇸🇴",
   role        : "Backend Engineer & Systems Architect",
-
   stack       : ["Node.js", "TypeScript", "MySQL", "Redis", "Docker"],
   domains     : ["Trading Infrastructure", "IMEI Platforms", "Distributed Systems"],
-
   principles  : [
     "assume_failure_by_default",
     "design_for_scale_from_day_one",
     "security_at_every_layer",
     "observability_is_not_optional",
   ],
-
   target      : "100K+ concurrent users",
   philosophy  : "Systems must survive abuse, not just usage.",
   status      : "Open to serious engineering collaboration",
@@ -56,10 +52,7 @@ const caaqil = {
 <tr>
 <td width="50%" valign="top">
 
-### 🏗 CML IMEI Platform
-
-> Core infrastructure for device tracking & verification
-
+### 🏗 CML IMEI Infrastructure
 ```
 ✅  Public Verification System
 ✅  Police / Admin / Dukaan Modules
@@ -74,9 +67,6 @@ const caaqil = {
 <td width="50%" valign="top">
 
 ### 📊 Trading Analytics Engine
-
-> Market structure intelligence & signal processing
-
 ```
 ✅  Market Structure Detection
 ✅  Liquidity Flow Analysis
@@ -97,32 +87,15 @@ const caaqil = {
 
 <div align="center">
 
-**Backend & Runtime**
-
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
 ![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
-
-**Databases & Caching**
-
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-
-**Infrastructure & DevOps**
-
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-
-**Frontend (when required)**
-
-![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 
 </div>
 
@@ -139,13 +112,7 @@ const caaqil = {
 
 <div align="center">
 
-[![GitHub Streak](https://streak-stats.demolab.com?user=caaqilyare&theme=github-dark-blue&hide_border=true&background=0d1117&ring=00ff88&fire=00ff88&currStreakLabel=00ff88&sideLabels=8b949e&dates=8b949e&currStreakNum=ffffff&sideNums=ffffff)](https://github.com/caaqilyare)
-
-</div>
-
-<div align="center">
-
-[![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=caaqilyare&theme=github-compact&bg_color=0d1117&color=00ff88&line=0e7636&point=00ff88&area=true&hide_border=true)](https://github.com/caaqilyare)
+[![GitHub Streak](https://streak-stats.demolab.com?user=caaqilyare&theme=github-dark-blue&hide_border=true&background=0d1117&ring=00ff88&fire=00ff88&currStreakLabel=00ff88&sideLabels=8b949e&dates=8b949e)](https://github.com/caaqilyare)
 
 </div>
 
@@ -155,7 +122,7 @@ const caaqil = {
 
 <div align="center">
 
-[![Trophies](https://github-profile-trophy.vercel.app/?username=caaqilyare&theme=algolia&no-frame=true&column=4&margin-w=8&margin-h=8&rank=SECRET,SSS,SS,S,AAA,AA,A,B,C)](https://github.com/caaqilyare)
+[![Trophies](https://github-profile-trophy.vercel.app/?username=caaqilyare&theme=algolia&no-frame=true&column=4&margin-w=8&margin-h=8)](https://github.com/caaqilyare)
 
 </div>
 
@@ -193,32 +160,8 @@ const caaqil = {
 
 ---
 
-## `$ finger caaqil@contact`
-
 <div align="center">
 
-```
-┌─────────────────────────────────────────────────────┐
-│                                                     │
-│   GitHub   →  github.com/caaqilyare                 │
-│   Location →  Somalia 🇸🇴                           │
-│   Focus    →  Backend Systems & Trading Infra       │
-│   Status   →  Open to serious engineering collab    │
-│                                                     │
-│   Mobile App  •  Web App  •  Backend Systems        │
-│   Available for freelance & project work            │
-│                                                     │
-└─────────────────────────────────────────────────────┘
-```
-
-[![GitHub](https://img.shields.io/badge/GitHub-caaqilyare-00ff88?style=for-the-badge&logo=github&logoColor=white&labelColor=0d1117)](https://github.com/caaqilyare)
-
-</div>
-
----
-
-<div align="center">
-
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:00ff88,50:0e4429,100:0d1117&height=120&section=footer&text=⚡+BUILD+SYSTEMS+THAT+SURVIVE+REALITY&fontSize=20&fontColor=8b949e&fontAlignY=55&animation=fadeIn" />
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:00ff88,50:0e4429,100:010409&height=120&section=footer&text=⚡+caaqilyare.github.io&fontSize=18&fontColor=8b949e&fontAlignY=55&animation=fadeIn" />
 
 </div>
