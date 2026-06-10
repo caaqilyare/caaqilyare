@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>caaqil@github — terminal</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #010409;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    gap: 1.5rem;
+  }
+
+  /* ── TERMINAL SHELL ── */
+  .terminal {
+    width: 100%;
+    max-width: 760px;
+    background: #0d1117;
+    border-radius: 12px;
+    border: 1px solid #30363d;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px #21262d, 0 24px 48px rgba(0,0,0,0.6);
+  }
+
+  .titlebar {
+    background: #161b22;
+    padding: 11px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #21262d;
+    user-select: none;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .dot.r { background: #ff5f56; }
+  .dot.y { background: #ffbd2e; }
+  .dot.g { background: #27c93f; }
+  .titlebar-label {
+    margin: 0 auto;
+    font-size: 12px;
+    color: #8b949e;
+    letter-spacing: 0.05em;
+  }
+
+  .term-body { padding: 22px 26px 20px; }
+  .prompt { color: #00ff88; font-size: 13px; margin-bottom: 14px; }
+  .prompt .cmd { color: #8b949e; }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: #484f58;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #21262d;
+  }
+
+  /* ── TROPHY GRID ── */
+  .trophy-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .trophy-card {
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 8px;
+    padding: 16px 10px 14px;
+    text-align: center;
+    cursor: default;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .trophy-card:hover { border-color: #00ff88; transform: translateY(-3px); }
+  .trophy-card.gold  { border-color: #3a2f0a; }
+  .trophy-card.gold:hover  { border-color: #e3a928; }
+  .trophy-card.silver { border-color: #2a2f38; }
+  .trophy-card.silver:hover { border-color: #8b949e; }
+
+  .trophy-icon { font-size: 28px; display: block; margin-bottom: 10px; }
+  .trophy-name {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+  .trophy-card .trophy-name { color: #00ff88; }
+  .trophy-card.gold .trophy-name { color: #e3a928; }
+  .trophy-card.silver .trophy-name { color: #8b949e; }
+  .trophy-val { font-size: 13px; color: #e6edf3; font-weight: 500; }
+
+  .term-footer { font-size: 12px; color: #484f58; margin-top: 4px; }
+
+  /* ── SNAKE ── */
+  .snake-wrap {
+    width: 100%;
+    max-width: 760px;
+    background: #0d1117;
+    border-radius: 12px;
+    border: 1px solid #30363d;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px #21262d, 0 24px 48px rgba(0,0,0,0.6);
+  }
+
+  .snake-titlebar {
+    background: #161b22;
+    padding: 11px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #21262d;
+    user-select: none;
+  }
+  .snake-label { font-size: 12px; color: #8b949e; margin-left: 10px; }
+  .snake-live  { margin-left: auto; font-size: 11px; color: #00ff88; }
+
+  canvas#snake {
+    display: block;
+    width: 100%;
+    height: auto;
+    image-rendering: pixelated;
+  }
+
+  .score-row {
+    display: flex;
+    gap: 28px;
+    padding: 10px 22px;
+    background: #0d1117;
+    border-top: 1px solid #21262d;
+  }
+  .score-item { font-size: 12px; color: #8b949e; }
+  .score-item span { color: #00ff88; margin-left: 6px; font-weight: 600; }
+
+  .controls {
+    display: flex;
+    gap: 8px;
+    padding: 10px 22px 14px;
+    background: #0d1117;
+    border-top: 1px solid #21262d;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .ctrl-btn {
+    background: #161b22;
+    border: 1px solid #30363d;
+    color: #8b949e;
+    font-family: inherit;
+    font-size: 12px;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .ctrl-btn:hover  { border-color: #00ff88; color: #00ff88; }
+  .ctrl-btn.active { border-color: #00ff88; color: #00ff88; background: #0e2a1a; }
+  .key-hint { margin-left: auto; font-size: 11px; color: #484f58; }
+
+  /* ── HIGH SCORE ── */
+  .hs-badge {
+    font-size: 11px;
+    color: #e3a928;
+    background: #1c1500;
+    border: 1px solid #3a2f0a;
+    border-radius: 6px;
+    padding: 3px 10px;
+    margin-left: 4px;
+  }
+
+  @media (max-width: 540px) {
+    .trophy-grid { grid-template-columns: repeat(2, 1fr); }
+    .score-row   { gap: 14px; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── TROPHIES ── -->
+<div class="terminal">
+  <div class="titlebar">
+    <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+    <span class="titlebar-label">cat /etc/trophies.conf</span>
+  </div>
+  <div class="term-body">
+    <div class="prompt">caaqil@github:~$ <span class="cmd">cat /etc/trophies.conf</span></div>
+    <div class="section-label">loaded 8 trophies</div>
+    <div class="trophy-grid">
+      <div class="trophy-card gold">
+        <span class="trophy-icon">🏆</span>
+        <div class="trophy-name">Repositories</div>
+        <div class="trophy-val">43 repos</div>
+      </div>
+      <div class="trophy-card gold">
+        <span class="trophy-icon">⭐</span>
+        <div class="trophy-name">Stars Earned</div>
+        <div class="trophy-val">12 stars</div>
+      </div>
+      <div class="trophy-card">
+        <span class="trophy-icon">🔥</span>
+        <div class="trophy-name">Commit Streak</div>
+        <div class="trophy-val">Active</div>
+      </div>
+      <div class="trophy-card">
+        <span class="trophy-icon">🧱</span>
+        <div class="trophy-name">Multi-Lang</div>
+        <div class="trophy-val">TS · JS · HTML</div>
+      </div>
+      <div class="trophy-card silver">
+        <span class="trophy-icon">🐍</span>
+        <div class="trophy-name">Backend Arch</div>
+        <div class="trophy-val">Node + MySQL</div>
+      </div>
+      <div class="trophy-card silver">
+        <span class="trophy-icon">🚀</span>
+        <div class="trophy-name">Scale Target</div>
+        <div class="trophy-val">100K users</div>
+      </div>
+      <div class="trophy-card">
+        <span class="trophy-icon">🛡️</span>
+        <div class="trophy-name">Security</div>
+        <div class="trophy-val">RBAC + Audit</div>
+      </div>
+      <div class="trophy-card gold">
+        <span class="trophy-icon">🇸🇴</span>
+        <div class="trophy-name">Location</div>
+        <div class="trophy-val">Somalia</div>
+      </div>
+    </div>
+    <div class="term-footer">└── trophies loaded in 0ms · all systems nominal</div>
+  </div>
+</div>
+
+<!-- ── SNAKE ── -->
+<div class="snake-wrap">
+  <div class="snake-titlebar">
+    <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+    <span class="snake-label">$ tail -f /var/log/snake.log</span>
+    <span class="snake-live" id="snake-live">● LIVE</span>
+  </div>
+
+  <canvas id="snake" width="760" height="320"></canvas>
+
+  <div class="score-row">
+    <div class="score-item">SCORE <span id="score-val">0</span></div>
+    <div class="score-item">LENGTH <span id="len-val">3</span></div>
+    <div class="score-item">SPEED <span id="spd-val">1.0x</span></div>
+    <div class="score-item">STATUS <span id="status-val">IDLE</span></div>
+    <div class="score-item">BEST <span id="best-val">0</span> <span class="hs-badge" id="hs-badge" style="display:none">NEW HS!</span></div>
+  </div>
+
+  <div class="controls">
+    <button class="ctrl-btn" id="btn-start">▶ START</button>
+    <button class="ctrl-btn" id="btn-pause">⏸ PAUSE</button>
+    <button class="ctrl-btn" id="btn-reset">↺ RESET</button>
+    <span class="key-hint">arrow keys / WASD to steer</span>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('snake');
+const ctx    = canvas.getContext('2d');
+const COLS = 38, ROWS = 16;
+const CW = canvas.width / COLS, CH = canvas.height / ROWS;
+
+let snake, dir, nextDir, food, score, running, paused, dead, interval, speed, best;
+
+best = parseInt(localStorage.getItem('caaqil_snake_best') || '0');
+document.getElementById('best-val').textContent = best;
+
+function init() {
+  snake   = [{x:10,y:8},{x:9,y:8},{x:8,y:8}];
+  dir     = {x:1,y:0};
+  nextDir = {x:1,y:0};
+  score   = 0; speed = 1; dead = false; paused = false;
+  document.getElementById('hs-badge').style.display = 'none';
+  document.getElementById('snake-live').textContent  = '● LIVE';
+  document.getElementById('snake-live').style.color  = '#00ff88';
+  document.getElementById('status-val').style.color  = '#8b949e';
+  placeFood(); updateUI(); draw();
+}
+
+function placeFood() {
+  let p;
+  do { p = {x:Math.floor(Math.random()*COLS), y:Math.floor(Math.random()*ROWS)}; }
+  while (snake.some(s=>s.x===p.x&&s.y===p.y));
+  food = p;
+}
+
+function step() {
+  if (paused || dead) return;
+  dir = nextDir;
+  const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
+
+  if (head.x<0||head.x>=COLS||head.y<0||head.y>=ROWS||snake.some(s=>s.x===head.x&&s.y===head.y)) {
+    dead = true;
+    if (score > best) {
+      best = score;
+      localStorage.setItem('caaqil_snake_best', best);
+      document.getElementById('best-val').textContent  = best;
+      document.getElementById('hs-badge').style.display = 'inline';
+    }
+    document.getElementById('status-val').textContent = 'DEAD';
+    document.getElementById('status-val').style.color  = '#ff5f56';
+    document.getElementById('snake-live').textContent  = '● DEAD';
+    document.getElementById('snake-live').style.color  = '#ff5f56';
+    draw(); return;
+  }
+
+  snake.unshift(head);
+  if (head.x===food.x && head.y===food.y) {
+    score += 10;
+    if (snake.length % 5 === 0) speed = Math.min(3.5, speed + 0.5);
+    placeFood();
+    clearInterval(interval);
+    interval = setInterval(step, Math.max(70, 190 - speed*45));
+  } else { snake.pop(); }
+  updateUI(); draw();
+}
+
+function updateUI() {
+  document.getElementById('score-val').textContent = score;
+  document.getElementById('len-val').textContent   = snake.length;
+  document.getElementById('spd-val').textContent   = speed.toFixed(1)+'x';
+}
+
+function draw() {
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  for (let x=0;x<COLS;x++) for (let y=0;y<ROWS;y++) {
+    if ((x+y)%2===0) { ctx.fillStyle='#111820'; ctx.fillRect(x*CW,y*CH,CW,CH); }
+  }
+
+  /* food */
+  const fx=food.x*CW, fy=food.y*CH, fr=CW*0.3;
+  ctx.fillStyle='#e3a928';
+  ctx.beginPath(); ctx.arc(fx+CW/2,fy+CH/2,fr,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#f5d06a';
+  ctx.beginPath(); ctx.arc(fx+CW/2-fr*0.25,fy+CH/2-fr*0.3,fr*0.28,0,Math.PI*2); ctx.fill();
+
+  /* snake */
+  snake.forEach((seg,i)=>{
+    const sx=seg.x*CW+1, sy=seg.y*CH+1, sw=CW-2, sh=CH-2;
+    ctx.fillStyle = dead ? '#ff5f56' : (i===0 ? '#00ff88' : '#0e4429');
+    ctx.beginPath(); ctx.roundRect(sx,sy,sw,sh,i===0?5:3); ctx.fill();
+
+    if (i===0 && !dead) {
+      ctx.strokeStyle='#00c96a'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.roundRect(sx,sy,sw,sh,5); ctx.stroke();
+      /* eyes */
+      const ew=2,eh=2;
+      let ex1,ey1,ex2,ey2;
+      if (dir.x!==0) {
+        ex1=ex2= dir.x>0 ? sx+sw-5 : sx+3;
+        ey1=sy+sh*0.28; ey2=sy+sh*0.72;
+      } else {
+        ey1=ey2= dir.y>0 ? sy+sh-5 : sy+3;
+        ex1=sx+sw*0.28; ex2=sx+sw*0.72;
+      }
+      ctx.fillStyle='#0d1117';
+      ctx.fillRect(ex1,ey1,ew,eh); ctx.fillRect(ex2,ey2,ew,eh);
+    }
+  });
+
+  if (dead) {
+    ctx.fillStyle='rgba(13,17,23,0.72)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle='#ff5f56'; ctx.textAlign='center';
+    ctx.font='600 17px monospace';
+    ctx.fillText('PROCESS KILLED — score: '+score, canvas.width/2, canvas.height/2-12);
+    ctx.fillStyle='#8b949e'; ctx.font='13px monospace';
+    ctx.fillText('press RESET to restart', canvas.width/2, canvas.height/2+14);
+  }
+}
+
+function startGame() {
+  if (dead) return;
+  if (!running) {
+    running = true;
+    clearInterval(interval);
+    interval = setInterval(step, 190);
+    document.getElementById('status-val').textContent = 'RUNNING';
+    document.getElementById('status-val').style.color  = '#00ff88';
+    document.getElementById('btn-start').classList.add('active');
+    document.getElementById('btn-pause').classList.remove('active');
+  }
+}
+
+document.getElementById('btn-start').addEventListener('click', startGame);
+
+document.getElementById('btn-pause').addEventListener('click', ()=>{
+  if (dead) return;
+  paused = !paused;
+  document.getElementById('btn-pause').classList.toggle('active', paused);
+  document.getElementById('btn-start').classList.toggle('active', !paused);
+  document.getElementById('status-val').textContent = paused ? 'PAUSED' : 'RUNNING';
+  document.getElementById('status-val').style.color  = paused ? '#e3a928' : '#00ff88';
+});
+
+document.getElementById('btn-reset').addEventListener('click', ()=>{
+  clearInterval(interval); running=false;
+  document.getElementById('btn-start').classList.remove('active');
+  document.getElementById('btn-pause').classList.remove('active');
+  document.getElementById('status-val').textContent='IDLE';
+  init();
+});
+
+document.addEventListener('keydown', e=>{
+  const map={ArrowUp:{x:0,y:-1},ArrowDown:{x:0,y:1},ArrowLeft:{x:-1,y:0},ArrowRight:{x:1,y:0},
+             w:{x:0,y:-1},s:{x:0,y:1},a:{x:-1,y:0},d:{x:1,y:0},
+             W:{x:0,y:-1},S:{x:0,y:1},A:{x:-1,y:0},D:{x:1,y:0}};
+  if (map[e.key]) {
+    const nd=map[e.key];
+    if (nd.x !== -dir.x || nd.y !== -dir.y) nextDir=nd;
+    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
+    if (!running && !dead) startGame();
+  }
+});
+
+init();
+</script>
+</body>
+</html>
