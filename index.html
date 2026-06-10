@@ -1,432 +1,998 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>caaqil@github — terminal</title>
+<title>Caaqil — Backend Engineer</title>
+<meta name="description" content="Backend Engineer building distributed systems, trading infrastructure & IMEI platforms from Somalia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:       #010409;
+  --surface:  #0d1117;
+  --surface2: #161b22;
+  --border:   #21262d;
+  --border2:  #30363d;
+  --green:    #00ff88;
+  --green2:   #0e4429;
+  --green3:   #0e7636;
+  --gold:     #e3a928;
+  --muted:    #8b949e;
+  --dim:      #484f58;
+  --text:     #e6edf3;
+  --white:    #ffffff;
+  --red:      #ff5f56;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Space Grotesk', sans-serif;
+}
 
-  body {
-    background: #010409;
-    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 1rem;
-    gap: 1.5rem;
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* ── TERMINAL SHELL ── */
-  .terminal {
-    width: 100%;
-    max-width: 760px;
-    background: #0d1117;
-    border-radius: 12px;
-    border: 1px solid #30363d;
-    overflow: hidden;
-    box-shadow: 0 0 0 1px #21262d, 0 24px 48px rgba(0,0,0,0.6);
-  }
+html { scroll-behavior: smooth; }
 
-  .titlebar {
-    background: #161b22;
-    padding: 11px 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid #21262d;
-    user-select: none;
-  }
-  .dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-  .dot.r { background: #ff5f56; }
-  .dot.y { background: #ffbd2e; }
-  .dot.g { background: #27c93f; }
-  .titlebar-label {
-    margin: 0 auto;
-    font-size: 12px;
-    color: #8b949e;
-    letter-spacing: 0.05em;
-  }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
 
-  .term-body { padding: 22px 26px 20px; }
-  .prompt { color: #00ff88; font-size: 13px; margin-bottom: 14px; }
-  .prompt .cmd { color: #8b949e; }
+/* ── GRID NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+}
 
-  .section-label {
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    color: #484f58;
-    text-transform: uppercase;
-    margin-bottom: 14px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #21262d;
-  }
+/* ── SCANLINE ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,255,136,0.015) 2px,
+    rgba(0,255,136,0.015) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
 
-  /* ── TROPHY GRID ── */
-  .trophy-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 14px;
-  }
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.5rem;
+  height: 56px;
+  background: rgba(1,4,9,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--green);
+  letter-spacing: 0.05em;
+}
+.nav-logo span { color: var(--muted); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--green); }
+.nav-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+.pulse {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
+}
 
-  .trophy-card {
-    background: #161b22;
-    border: 1px solid #21262d;
-    border-radius: 8px;
-    padding: 16px 10px 14px;
-    text-align: center;
-    cursor: default;
-    transition: border-color 0.2s ease, transform 0.2s ease;
-  }
-  .trophy-card:hover { border-color: #00ff88; transform: translateY(-3px); }
-  .trophy-card.gold  { border-color: #3a2f0a; }
-  .trophy-card.gold:hover  { border-color: #e3a928; }
-  .trophy-card.silver { border-color: #2a2f38; }
-  .trophy-card.silver:hover { border-color: #8b949e; }
+/* ── HERO ── */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+}
 
-  .trophy-icon { font-size: 28px; display: block; margin-bottom: 10px; }
-  .trophy-name {
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-    font-weight: 600;
-  }
-  .trophy-card .trophy-name { color: #00ff88; }
-  .trophy-card.gold .trophy-name { color: #e3a928; }
-  .trophy-card.silver .trophy-name { color: #8b949e; }
-  .trophy-val { font-size: 13px; color: #e6edf3; font-weight: 500; }
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--green);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.2s;
+}
 
-  .term-footer { font-size: 12px; color: #484f58; margin-top: 4px; }
+.hero-name {
+  font-size: clamp(3.5rem, 10vw, 8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.35s;
+}
+.hero-name .accent { color: var(--green); }
 
-  /* ── SNAKE ── */
-  .snake-wrap {
-    width: 100%;
-    max-width: 760px;
-    background: #0d1117;
-    border-radius: 12px;
-    border: 1px solid #30363d;
-    overflow: hidden;
-    box-shadow: 0 0 0 1px #21262d, 0 24px 48px rgba(0,0,0,0.6);
-  }
+.hero-title {
+  font-family: var(--mono);
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.5s;
+}
 
-  .snake-titlebar {
-    background: #161b22;
-    padding: 11px 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid #21262d;
-    user-select: none;
-  }
-  .snake-label { font-size: 12px; color: #8b949e; margin-left: 10px; }
-  .snake-live  { margin-left: auto; font-size: 11px; color: #00ff88; }
+.hero-desc {
+  max-width: 520px;
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.65s;
+}
 
-  canvas#snake {
-    display: block;
-    width: 100%;
-    height: auto;
-    image-rendering: pixelated;
-  }
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.8s;
+}
 
-  .score-row {
-    display: flex;
-    gap: 28px;
-    padding: 10px 22px;
-    background: #0d1117;
-    border-top: 1px solid #21262d;
-  }
-  .score-item { font-size: 12px; color: #8b949e; }
-  .score-item span { color: #00ff88; margin-left: 6px; font-weight: 600; }
+.btn-primary {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--bg);
+  background: var(--green);
+  border: none;
+  padding: 12px 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.15s;
+  font-weight: 700;
+}
+.btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
 
-  .controls {
-    display: flex;
-    gap: 8px;
-    padding: 10px 22px 14px;
-    background: #0d1117;
-    border-top: 1px solid #21262d;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .ctrl-btn {
-    background: #161b22;
-    border: 1px solid #30363d;
-    color: #8b949e;
-    font-family: inherit;
-    font-size: 12px;
-    padding: 6px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: border-color 0.15s, color 0.15s, background 0.15s;
-  }
-  .ctrl-btn:hover  { border-color: #00ff88; color: #00ff88; }
-  .ctrl-btn.active { border-color: #00ff88; color: #00ff88; background: #0e2a1a; }
-  .key-hint { margin-left: auto; font-size: 11px; color: #484f58; }
+.btn-ghost {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--green);
+  background: transparent;
+  border: 1px solid var(--green3);
+  padding: 12px 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-ghost:hover { background: rgba(0,255,136,0.06); transform: translateY(-2px); }
 
-  /* ── HIGH SCORE ── */
-  .hs-badge {
-    font-size: 11px;
-    color: #e3a928;
-    background: #1c1500;
-    border: 1px solid #3a2f0a;
-    border-radius: 6px;
-    padding: 3px 10px;
-    margin-left: 4px;
-  }
+/* hero stats bar */
+.hero-stats {
+  display: flex;
+  gap: 3rem;
+  margin-top: 5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--border);
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 1s;
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--white);
+  font-family: var(--mono);
+  display: block;
+}
+.stat-num .g { color: var(--green); }
+.stat-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--dim);
+  text-transform: uppercase;
+}
 
-  @media (max-width: 540px) {
-    .trophy-grid { grid-template-columns: repeat(2, 1fr); }
-    .score-row   { gap: 14px; flex-wrap: wrap; }
-  }
+/* scroll indicator */
+.scroll-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: fadeUp 1s ease forwards 1.4s;
+  opacity: 0;
+}
+.scroll-hint::after {
+  content: '';
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(var(--green3), transparent);
+  animation: scrollLine 1.8s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0%   { opacity: 0; transform: scaleY(0); transform-origin: top; }
+  50%  { opacity: 1; transform: scaleY(1); }
+  100% { opacity: 0; transform: scaleY(1); transform-origin: bottom; }
+}
+
+/* ── SECTIONS ── */
+section {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 6rem 2rem;
+}
+
+.section-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--green);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 3rem;
+  letter-spacing: -0.02em;
+}
+
+/* ── TERMINAL CARD ── */
+.terminal {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.tbar {
+  background: var(--surface2);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border-bottom: 1px solid var(--border);
+}
+.dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.dot.r { background: #ff5f56; }
+.dot.y { background: #ffbd2e; }
+.dot.g { background: #27c93f; }
+.tbar-title { margin: 0 auto; font-family: var(--mono); font-size: 12px; color: var(--dim); }
+.tbody { padding: 22px 26px; font-family: var(--mono); font-size: 13px; line-height: 1.8; }
+.tbody .p  { color: var(--green); margin-bottom: 12px; }
+.tbody .p .c { color: var(--muted); }
+.tbody .k  { color: #79c0ff; }
+.tbody .s  { color: #a5d6ff; }
+.tbody .v  { color: var(--gold); }
+.tbody .cm { color: var(--dim); }
+
+/* ── STACK GRID ── */
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+}
+.stack-pill {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 10px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  cursor: default;
+}
+.stack-pill:hover { border-color: var(--green); color: var(--green); transform: translateY(-2px); }
+.stack-pill .si { font-size: 22px; display: block; margin-bottom: 7px; }
+
+/* ── PROJECT CARDS ── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.proj-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 24px;
+  transition: border-color 0.2s, transform 0.2s;
+  cursor: default;
+}
+.proj-card:hover { border-color: var(--green3); transform: translateY(-3px); }
+.proj-card.featured { border-color: var(--green3); grid-column: span 2; }
+.proj-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+  background: rgba(0,255,136,0.08);
+  border: 1px solid var(--green3);
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+}
+.proj-name {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.proj-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+.proj-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dim);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+.proj-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--green);
+  margin-top: 14px;
+}
+.proj-status::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* ── TROPHY SECTION ── */
+.trophy-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.trophy-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 12px;
+  text-align: center;
+  transition: border-color 0.2s, transform 0.2s;
+  cursor: default;
+}
+.trophy-card:hover { border-color: var(--green); transform: translateY(-3px); }
+.trophy-card.gold   { border-color: #3a2f0a; }
+.trophy-card.gold:hover { border-color: var(--gold); }
+.trophy-card.silver { border-color: #2a2f38; }
+.trophy-card.silver:hover { border-color: var(--muted); }
+.trophy-icon { font-size: 28px; display: block; margin-bottom: 10px; }
+.trophy-name {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+.trophy-card.gold   .trophy-name { color: var(--gold); }
+.trophy-card.silver .trophy-name { color: var(--muted); }
+.trophy-val { font-family: var(--mono); font-size: 13px; color: var(--text); font-weight: 500; }
+
+/* ── SNAKE ── */
+.snake-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.snake-tbar {
+  background: var(--surface2);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.snake-label { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-left: 10px; }
+.snake-live  { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--green); }
+canvas#snake { display: block; width: 100%; image-rendering: pixelated; }
+.snake-scores {
+  display: flex; gap: 28px; padding: 10px 22px;
+  border-top: 1px solid var(--border);
+}
+.sc-item { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.sc-item span { color: var(--green); margin-left: 6px; font-weight: 600; }
+.snake-controls {
+  display: flex; gap: 8px; padding: 10px 22px 14px;
+  border-top: 1px solid var(--border);
+  align-items: center; flex-wrap: wrap;
+}
+.ctrl {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 6px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.ctrl:hover  { border-color: var(--green); color: var(--green); }
+.ctrl.active { border-color: var(--green); color: var(--green); background: rgba(0,255,136,0.06); }
+.key-hint { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--dim); }
+.hs-badge {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--gold); background: #1c1500;
+  border: 1px solid #3a2f0a;
+  border-radius: 4px; padding: 2px 8px; margin-left: 4px;
+}
+
+/* ── PHILOSOPHY ── */
+.philosophy-block {
+  background: var(--surface);
+  border-left: 3px solid var(--green);
+  border-radius: 0 10px 10px 0;
+  padding: 28px 32px;
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  line-height: 1.9;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+.philosophy-block .hl { color: var(--white); }
+.philosophy-block .acc { color: var(--green); }
+
+/* ── CONNECT ── */
+.connect-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 12px;
+}
+.connect-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  text-decoration: none;
+  transition: border-color 0.2s, transform 0.2s;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.connect-card:hover { border-color: var(--green3); transform: translateY(-2px); }
+.connect-icon { font-size: 22px; }
+.connect-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.connect-val { font-family: var(--mono); font-size: 13px; color: var(--green); }
+
+/* ── FOOTER ── */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--dim);
+}
+footer span { color: var(--green); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .projects-grid       { grid-template-columns: 1fr; }
+  .proj-card.featured  { grid-column: span 1; }
+  .trophy-grid         { grid-template-columns: repeat(2,1fr); }
+  .connect-grid        { grid-template-columns: 1fr 1fr; }
+  .hero-stats          { gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
+  nav                  { padding: 0 1.2rem; }
+  .nav-links           { display: none; }
+}
 </style>
 </head>
 <body>
 
-<!-- ── TROPHIES ── -->
-<div class="terminal">
-  <div class="titlebar">
-    <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
-    <span class="titlebar-label">cat /etc/trophies.conf</span>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span>~/</span>caaqil</div>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#stack">stack</a></li>
+    <li><a href="#trophies">trophies</a></li>
+    <li><a href="#connect">connect</a></li>
+  </ul>
+  <div class="nav-status"><div class="pulse"></div>open to collab</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">caaqilyare · somalia 🇸🇴</div>
+  <h1 class="hero-name">CAA<span class="accent">QIL</span></h1>
+  <p class="hero-title">backend engineer &nbsp;·&nbsp; systems architect &nbsp;·&nbsp; production systems builder</p>
+  <p class="hero-desc">Building distributed systems that survive reality — not just development. Trading infrastructure, IMEI platforms, and high-concurrency APIs from Somalia.</p>
+  <div class="hero-cta">
+    <a href="https://github.com/caaqilyare" class="btn-primary" target="_blank">github.com/caaqilyare</a>
+    <a href="#projects" class="btn-ghost">view projects</a>
   </div>
-  <div class="term-body">
-    <div class="prompt">caaqil@github:~$ <span class="cmd">cat /etc/trophies.conf</span></div>
-    <div class="section-label">loaded 8 trophies</div>
-    <div class="trophy-grid">
-      <div class="trophy-card gold">
-        <span class="trophy-icon">🏆</span>
-        <div class="trophy-name">Repositories</div>
-        <div class="trophy-val">43 repos</div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num">43</span>
+      <span class="stat-label">Repositories</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num"><span class="g">100K</span></span>
+      <span class="stat-label">Scale Target</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">3+</span>
+      <span class="stat-label">Years Backend</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num"><span class="g">∞</span></span>
+      <span class="stat-label">Systems Built</span>
+    </div>
+  </div>
+  <div class="scroll-hint">scroll</div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <div class="section-eyebrow">whoami</div>
+    <h2 class="section-title">System Status</h2>
+    <div class="terminal">
+      <div class="tbar">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <span class="tbar-title">~/.config/caaqil.ts</span>
       </div>
-      <div class="trophy-card gold">
-        <span class="trophy-icon">⭐</span>
-        <div class="trophy-name">Stars Earned</div>
-        <div class="trophy-val">12 stars</div>
-      </div>
-      <div class="trophy-card">
-        <span class="trophy-icon">🔥</span>
-        <div class="trophy-name">Commit Streak</div>
-        <div class="trophy-val">Active</div>
-      </div>
-      <div class="trophy-card">
-        <span class="trophy-icon">🧱</span>
-        <div class="trophy-name">Multi-Lang</div>
-        <div class="trophy-val">TS · JS · HTML</div>
-      </div>
-      <div class="trophy-card silver">
-        <span class="trophy-icon">🐍</span>
-        <div class="trophy-name">Backend Arch</div>
-        <div class="trophy-val">Node + MySQL</div>
-      </div>
-      <div class="trophy-card silver">
-        <span class="trophy-icon">🚀</span>
-        <div class="trophy-name">Scale Target</div>
-        <div class="trophy-val">100K users</div>
-      </div>
-      <div class="trophy-card">
-        <span class="trophy-icon">🛡️</span>
-        <div class="trophy-name">Security</div>
-        <div class="trophy-val">RBAC + Audit</div>
-      </div>
-      <div class="trophy-card gold">
-        <span class="trophy-icon">🇸🇴</span>
-        <div class="trophy-name">Location</div>
-        <div class="trophy-val">Somalia</div>
+      <div class="tbody">
+        <div class="p">caaqil@github:~$ <span class="c">cat config.ts</span></div>
+<pre style="color:var(--muted);line-height:1.9;white-space:pre-wrap"><span class="k">const</span> <span style="color:#ffa657">caaqil</span> = {
+  <span class="k">name</span><span style="color:var(--muted)">:</span>     <span class="s">"Munasar Abuukar"</span>,
+  <span class="k">alias</span><span style="color:var(--muted)">:</span>    <span class="s">"Caaqil"</span>,
+  <span class="k">location</span><span style="color:var(--muted)">:</span> <span class="s">"Somalia 🇸🇴"</span>,
+  <span class="k">role</span><span style="color:var(--muted)">:</span>     <span class="s">"Backend Engineer &amp; Systems Architect"</span>,
+
+  <span class="k">stack</span><span style="color:var(--muted)">:</span>  [<span class="s">"Node.js"</span>, <span class="s">"TypeScript"</span>, <span class="s">"MySQL"</span>, <span class="s">"Redis"</span>, <span class="s">"Docker"</span>],
+  <span class="k">domains</span><span style="color:var(--muted)">:</span>[<span class="s">"Trading Infrastructure"</span>, <span class="s">"IMEI Platforms"</span>, <span class="s">"Distributed Systems"</span>],
+
+  <span class="k">principles</span><span style="color:var(--muted)">:</span> [
+    <span class="s">"assume_failure_by_default"</span>,
+    <span class="s">"design_for_scale_from_day_one"</span>,
+    <span class="s">"security_at_every_layer"</span>,
+    <span class="s">"observability_is_not_optional"</span>,
+  ],
+
+  <span class="k">target</span><span style="color:var(--muted)">:</span>     <span class="s">"100K+ concurrent users"</span>,
+  <span class="k">philosophy</span><span style="color:var(--muted)">:</span> <span class="s">"Systems must survive abuse, not just usage."</span>,
+  <span class="k">status</span><span style="color:var(--muted)">:</span>     <span class="s">"Open to serious engineering collaboration"</span>,
+};</pre>
       </div>
     </div>
-    <div class="term-footer">└── trophies loaded in 0ms · all systems nominal</div>
   </div>
-</div>
+</section>
 
-<!-- ── SNAKE ── -->
-<div class="snake-wrap">
-  <div class="snake-titlebar">
-    <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
-    <span class="snake-label">$ tail -f /var/log/snake.log</span>
-    <span class="snake-live" id="snake-live">● LIVE</span>
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="reveal">
+    <div class="section-eyebrow">ls -la ./projects</div>
+    <h2 class="section-title">Engineering Workload</h2>
+    <div class="projects-grid">
+
+      <div class="proj-card featured">
+        <div class="proj-tag">⚡ flagship</div>
+        <div class="proj-name">CML IMEI Infrastructure</div>
+        <div class="proj-desc">Core platform for device identity, tracking and verification across Somalia. Built for law enforcement, retailers, and public users with strict RBAC and tamper-resistant audit trails.</div>
+        <div class="proj-chips">
+          <span class="chip">Node.js</span><span class="chip">TypeScript</span>
+          <span class="chip">MySQL</span><span class="chip">Redis</span>
+          <span class="chip">RBAC</span><span class="chip">Audit Logs</span>
+        </div>
+        <div class="proj-status">production · high concurrency architecture</div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-tag">📊 trading</div>
+        <div class="proj-name">Trading Analytics Engine</div>
+        <div class="proj-desc">Market structure detection, liquidity flow analysis and ICT logic across London/NY sessions. Low-latency signal pipeline built for real decision-making.</div>
+        <div class="proj-chips">
+          <span class="chip">TypeScript</span><span class="chip">Real-Time</span>
+          <span class="chip">ICT Logic</span><span class="chip">Sessions</span>
+        </div>
+        <div class="proj-status">active development</div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-tag">🗄️ tools</div>
+        <div class="proj-name">MySQL Management System</div>
+        <div class="proj-desc">Modern web interface for managing MySQL databases, tables, and queries. Built with Node.js and TypeScript for intuitive database administration.</div>
+        <div class="proj-chips">
+          <span class="chip">Node.js</span><span class="chip">TypeScript</span><span class="chip">MySQL</span>
+        </div>
+        <div class="proj-status">open source</div>
+      </div>
+
+    </div>
   </div>
+</section>
 
-  <canvas id="snake" width="760" height="320"></canvas>
-
-  <div class="score-row">
-    <div class="score-item">SCORE <span id="score-val">0</span></div>
-    <div class="score-item">LENGTH <span id="len-val">3</span></div>
-    <div class="score-item">SPEED <span id="spd-val">1.0x</span></div>
-    <div class="score-item">STATUS <span id="status-val">IDLE</span></div>
-    <div class="score-item">BEST <span id="best-val">0</span> <span class="hs-badge" id="hs-badge" style="display:none">NEW HS!</span></div>
+<!-- STACK -->
+<section id="stack">
+  <div class="reveal">
+    <div class="section-eyebrow">cat package.json</div>
+    <h2 class="section-title">Tech Stack</h2>
+    <div class="stack-grid">
+      <div class="stack-pill"><span class="si">⬡</span>Node.js</div>
+      <div class="stack-pill"><span class="si">𝙏𝙎</span>TypeScript</div>
+      <div class="stack-pill"><span class="si">🐬</span>MySQL</div>
+      <div class="stack-pill"><span class="si">🔴</span>Redis</div>
+      <div class="stack-pill"><span class="si">🐳</span>Docker</div>
+      <div class="stack-pill"><span class="si">🌱</span>MongoDB</div>
+      <div class="stack-pill"><span class="si">⚡</span>Express</div>
+      <div class="stack-pill"><span class="si">🦅</span>NestJS</div>
+      <div class="stack-pill"><span class="si">⚛</span>React</div>
+      <div class="stack-pill"><span class="si">▲</span>Next.js</div>
+      <div class="stack-pill"><span class="si">🔷</span>Vite</div>
+      <div class="stack-pill"><span class="si">🐧</span>Linux</div>
+      <div class="stack-pill"><span class="si">🌐</span>Nginx</div>
+      <div class="stack-pill"><span class="si">🐘</span>PostgreSQL</div>
+      <div class="stack-pill"><span class="si">📦</span>PM2</div>
+      <div class="stack-pill"><span class="si">🔱</span>Git</div>
+    </div>
   </div>
+</section>
 
-  <div class="controls">
-    <button class="ctrl-btn" id="btn-start">▶ START</button>
-    <button class="ctrl-btn" id="btn-pause">⏸ PAUSE</button>
-    <button class="ctrl-btn" id="btn-reset">↺ RESET</button>
-    <span class="key-hint">arrow keys / WASD to steer</span>
+<!-- TROPHIES -->
+<section id="trophies">
+  <div class="reveal">
+    <div class="section-eyebrow">cat /etc/trophies.conf</div>
+    <h2 class="section-title">Achievements</h2>
+    <div class="terminal" style="margin-bottom:2rem">
+      <div class="tbar">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <span class="tbar-title">cat /etc/trophies.conf</span>
+      </div>
+      <div class="tbody">
+        <div class="p">caaqil@github:~$ <span class="c">cat /etc/trophies.conf</span></div>
+        <div style="color:var(--dim);margin-bottom:16px;font-size:12px;">└── loaded 8 trophies · 0ms</div>
+        <div class="trophy-grid">
+          <div class="trophy-card gold">
+            <span class="trophy-icon">🏆</span>
+            <div class="trophy-name">Repositories</div>
+            <div class="trophy-val">43 repos</div>
+          </div>
+          <div class="trophy-card gold">
+            <span class="trophy-icon">⭐</span>
+            <div class="trophy-name">Stars Earned</div>
+            <div class="trophy-val">12 stars</div>
+          </div>
+          <div class="trophy-card">
+            <span class="trophy-icon">🔥</span>
+            <div class="trophy-name">Commit Streak</div>
+            <div class="trophy-val">Active</div>
+          </div>
+          <div class="trophy-card">
+            <span class="trophy-icon">🧱</span>
+            <div class="trophy-name">Multi-Lang</div>
+            <div class="trophy-val">TS · JS · HTML</div>
+          </div>
+          <div class="trophy-card silver">
+            <span class="trophy-icon">🐍</span>
+            <div class="trophy-name">Backend Arch</div>
+            <div class="trophy-val">Node + MySQL</div>
+          </div>
+          <div class="trophy-card silver">
+            <span class="trophy-icon">🚀</span>
+            <div class="trophy-name">Scale Target</div>
+            <div class="trophy-val">100K users</div>
+          </div>
+          <div class="trophy-card">
+            <span class="trophy-icon">🛡️</span>
+            <div class="trophy-name">Security</div>
+            <div class="trophy-val">RBAC + Audit</div>
+          </div>
+          <div class="trophy-card gold">
+            <span class="trophy-icon">🇸🇴</span>
+            <div class="trophy-name">Location</div>
+            <div class="trophy-val">Somalia</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SNAKE -->
+    <div class="section-eyebrow" style="margin-bottom:0.6rem">tail -f /var/log/snake.log</div>
+    <div class="snake-wrap">
+      <div class="snake-tbar">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <span class="snake-label">contribution snake · interactive</span>
+        <span class="snake-live" id="snake-live">● LIVE</span>
+      </div>
+      <canvas id="snake" width="860" height="340"></canvas>
+      <div class="snake-scores">
+        <div class="sc-item">SCORE <span id="score-val">0</span></div>
+        <div class="sc-item">LENGTH <span id="len-val">3</span></div>
+        <div class="sc-item">SPEED <span id="spd-val">1.0x</span></div>
+        <div class="sc-item">STATUS <span id="status-val">IDLE</span></div>
+        <div class="sc-item">BEST <span id="best-val">0</span><span class="hs-badge" id="hs-badge" style="display:none">NEW HS!</span></div>
+      </div>
+      <div class="snake-controls">
+        <button class="ctrl" id="btn-start">▶ START</button>
+        <button class="ctrl" id="btn-pause">⏸ PAUSE</button>
+        <button class="ctrl" id="btn-reset">↺ RESET</button>
+        <span class="key-hint">arrow keys / WASD</span>
+      </div>
+    </div>
   </div>
-</div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section>
+  <div class="reveal">
+    <div class="section-eyebrow">cat philosophy.txt</div>
+    <h2 class="section-title">Engineering Philosophy</h2>
+    <div class="philosophy-block">
+      <span class="hl">"Most systems work in development.</span><br><br>
+      Real systems are tested by <span class="acc">traffic spikes</span>, <span class="acc">failures</span>, <span class="acc">abuse</span>, and <span class="acc">latency pressure</span>.<br><br>
+      <span class="hl">If it cannot survive failure → it is not production-ready."</span>
+    </div>
+    <div style="font-family:var(--mono);font-size:12px;color:var(--dim);padding-left:4px;">— Caaqil · Backend Engineer · Somalia 🇸🇴</div>
+  </div>
+</section>
+
+<!-- CONNECT -->
+<section id="connect">
+  <div class="reveal">
+    <div class="section-eyebrow">finger caaqil@contact</div>
+    <h2 class="section-title">Connect</h2>
+    <div class="connect-grid">
+      <a href="https://github.com/caaqilyare" target="_blank" class="connect-card">
+        <div class="connect-icon">⌥</div>
+        <div class="connect-label">GitHub</div>
+        <div class="connect-val">caaqilyare</div>
+      </a>
+      <div class="connect-card">
+        <div class="connect-icon">📍</div>
+        <div class="connect-label">Location</div>
+        <div class="connect-val">Somalia 🇸🇴</div>
+      </div>
+      <div class="connect-card">
+        <div class="connect-icon">🤝</div>
+        <div class="connect-label">Status</div>
+        <div class="connect-val">Open to collab</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  built by <span>caaqil</span> · somalia · systems that survive reality
+</footer>
 
 <script>
-const canvas = document.getElementById('snake');
-const ctx    = canvas.getContext('2d');
-const COLS = 38, ROWS = 16;
-const CW = canvas.width / COLS, CH = canvas.height / ROWS;
+/* ── REVEAL ON SCROLL ── */
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-let snake, dir, nextDir, food, score, running, paused, dead, interval, speed, best;
+/* ── SNAKE ── */
+const canvas=document.getElementById('snake');
+const ctx=canvas.getContext('2d');
+const COLS=43,ROWS=17;
+const CW=canvas.width/COLS,CH=canvas.height/ROWS;
+let snake,dir,nextDir,food,score,running,paused,dead,interval,speed,best;
+best=parseInt(localStorage.getItem('caaqil_snake_best')||'0');
+document.getElementById('best-val').textContent=best;
 
-best = parseInt(localStorage.getItem('caaqil_snake_best') || '0');
-document.getElementById('best-val').textContent = best;
-
-function init() {
-  snake   = [{x:10,y:8},{x:9,y:8},{x:8,y:8}];
-  dir     = {x:1,y:0};
-  nextDir = {x:1,y:0};
-  score   = 0; speed = 1; dead = false; paused = false;
-  document.getElementById('hs-badge').style.display = 'none';
-  document.getElementById('snake-live').textContent  = '● LIVE';
-  document.getElementById('snake-live').style.color  = '#00ff88';
-  document.getElementById('status-val').style.color  = '#8b949e';
+function init(){
+  snake=[{x:12,y:8},{x:11,y:8},{x:10,y:8}];
+  dir={x:1,y:0}; nextDir={x:1,y:0};
+  score=0; speed=1; dead=false; paused=false;
+  document.getElementById('hs-badge').style.display='none';
+  document.getElementById('snake-live').textContent='● LIVE';
+  document.getElementById('snake-live').style.color='#00ff88';
+  document.getElementById('status-val').style.color='#8b949e';
   placeFood(); updateUI(); draw();
 }
 
-function placeFood() {
+function placeFood(){
   let p;
-  do { p = {x:Math.floor(Math.random()*COLS), y:Math.floor(Math.random()*ROWS)}; }
-  while (snake.some(s=>s.x===p.x&&s.y===p.y));
-  food = p;
+  do{p={x:Math.floor(Math.random()*COLS),y:Math.floor(Math.random()*ROWS)};}
+  while(snake.some(s=>s.x===p.x&&s.y===p.y));
+  food=p;
 }
 
-function step() {
-  if (paused || dead) return;
-  dir = nextDir;
-  const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
-
-  if (head.x<0||head.x>=COLS||head.y<0||head.y>=ROWS||snake.some(s=>s.x===head.x&&s.y===head.y)) {
-    dead = true;
-    if (score > best) {
-      best = score;
-      localStorage.setItem('caaqil_snake_best', best);
-      document.getElementById('best-val').textContent  = best;
-      document.getElementById('hs-badge').style.display = 'inline';
+function step(){
+  if(paused||dead) return;
+  dir=nextDir;
+  const head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+  if(head.x<0||head.x>=COLS||head.y<0||head.y>=ROWS||snake.some(s=>s.x===head.x&&s.y===head.y)){
+    dead=true;
+    if(score>best){
+      best=score;
+      localStorage.setItem('caaqil_snake_best',best);
+      document.getElementById('best-val').textContent=best;
+      document.getElementById('hs-badge').style.display='inline';
     }
-    document.getElementById('status-val').textContent = 'DEAD';
-    document.getElementById('status-val').style.color  = '#ff5f56';
-    document.getElementById('snake-live').textContent  = '● DEAD';
-    document.getElementById('snake-live').style.color  = '#ff5f56';
+    document.getElementById('status-val').textContent='DEAD';
+    document.getElementById('status-val').style.color='#ff5f56';
+    document.getElementById('snake-live').textContent='● DEAD';
+    document.getElementById('snake-live').style.color='#ff5f56';
     draw(); return;
   }
-
   snake.unshift(head);
-  if (head.x===food.x && head.y===food.y) {
-    score += 10;
-    if (snake.length % 5 === 0) speed = Math.min(3.5, speed + 0.5);
+  if(head.x===food.x&&head.y===food.y){
+    score+=10;
+    if(snake.length%5===0) speed=Math.min(3.5,speed+0.5);
     placeFood();
     clearInterval(interval);
-    interval = setInterval(step, Math.max(70, 190 - speed*45));
+    interval=setInterval(step,Math.max(70,190-speed*45));
   } else { snake.pop(); }
   updateUI(); draw();
 }
 
-function updateUI() {
-  document.getElementById('score-val').textContent = score;
-  document.getElementById('len-val').textContent   = snake.length;
-  document.getElementById('spd-val').textContent   = speed.toFixed(1)+'x';
+function updateUI(){
+  document.getElementById('score-val').textContent=score;
+  document.getElementById('len-val').textContent=snake.length;
+  document.getElementById('spd-val').textContent=speed.toFixed(1)+'x';
 }
 
-function draw() {
-  ctx.fillStyle = '#0d1117';
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-
-  for (let x=0;x<COLS;x++) for (let y=0;y<ROWS;y++) {
-    if ((x+y)%2===0) { ctx.fillStyle='#111820'; ctx.fillRect(x*CW,y*CH,CW,CH); }
+function draw(){
+  ctx.fillStyle='#0d1117'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  for(let x=0;x<COLS;x++) for(let y=0;y<ROWS;y++){
+    if((x+y)%2===0){ctx.fillStyle='#111820';ctx.fillRect(x*CW,y*CH,CW,CH);}
   }
-
-  /* food */
-  const fx=food.x*CW, fy=food.y*CH, fr=CW*0.3;
+  const fx=food.x*CW,fy=food.y*CH,fr=CW*0.3;
   ctx.fillStyle='#e3a928';
-  ctx.beginPath(); ctx.arc(fx+CW/2,fy+CH/2,fr,0,Math.PI*2); ctx.fill();
+  ctx.beginPath();ctx.arc(fx+CW/2,fy+CH/2,fr,0,Math.PI*2);ctx.fill();
   ctx.fillStyle='#f5d06a';
-  ctx.beginPath(); ctx.arc(fx+CW/2-fr*0.25,fy+CH/2-fr*0.3,fr*0.28,0,Math.PI*2); ctx.fill();
-
-  /* snake */
+  ctx.beginPath();ctx.arc(fx+CW/2-fr*0.25,fy+CH/2-fr*0.3,fr*0.28,0,Math.PI*2);ctx.fill();
   snake.forEach((seg,i)=>{
-    const sx=seg.x*CW+1, sy=seg.y*CH+1, sw=CW-2, sh=CH-2;
-    ctx.fillStyle = dead ? '#ff5f56' : (i===0 ? '#00ff88' : '#0e4429');
-    ctx.beginPath(); ctx.roundRect(sx,sy,sw,sh,i===0?5:3); ctx.fill();
-
-    if (i===0 && !dead) {
-      ctx.strokeStyle='#00c96a'; ctx.lineWidth=1;
-      ctx.beginPath(); ctx.roundRect(sx,sy,sw,sh,5); ctx.stroke();
-      /* eyes */
-      const ew=2,eh=2;
+    const sx=seg.x*CW+1,sy=seg.y*CH+1,sw=CW-2,sh=CH-2;
+    ctx.fillStyle=dead?'#ff5f56':(i===0?'#00ff88':'#0e4429');
+    ctx.beginPath();ctx.roundRect(sx,sy,sw,sh,i===0?5:3);ctx.fill();
+    if(i===0&&!dead){
+      ctx.strokeStyle='#00c96a';ctx.lineWidth=1;
+      ctx.beginPath();ctx.roundRect(sx,sy,sw,sh,5);ctx.stroke();
       let ex1,ey1,ex2,ey2;
-      if (dir.x!==0) {
-        ex1=ex2= dir.x>0 ? sx+sw-5 : sx+3;
-        ey1=sy+sh*0.28; ey2=sy+sh*0.72;
-      } else {
-        ey1=ey2= dir.y>0 ? sy+sh-5 : sy+3;
-        ex1=sx+sw*0.28; ex2=sx+sw*0.72;
-      }
-      ctx.fillStyle='#0d1117';
-      ctx.fillRect(ex1,ey1,ew,eh); ctx.fillRect(ex2,ey2,ew,eh);
+      if(dir.x!==0){ex1=ex2=dir.x>0?sx+sw-5:sx+3;ey1=sy+sh*0.28;ey2=sy+sh*0.72;}
+      else{ey1=ey2=dir.y>0?sy+sh-5:sy+3;ex1=sx+sw*0.28;ex2=sx+sw*0.72;}
+      ctx.fillStyle='#0d1117';ctx.fillRect(ex1,ey1,2,2);ctx.fillRect(ex2,ey2,2,2);
     }
   });
-
-  if (dead) {
-    ctx.fillStyle='rgba(13,17,23,0.72)';
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle='#ff5f56'; ctx.textAlign='center';
-    ctx.font='600 17px monospace';
-    ctx.fillText('PROCESS KILLED — score: '+score, canvas.width/2, canvas.height/2-12);
-    ctx.fillStyle='#8b949e'; ctx.font='13px monospace';
-    ctx.fillText('press RESET to restart', canvas.width/2, canvas.height/2+14);
+  if(dead){
+    ctx.fillStyle='rgba(13,17,23,0.75)';ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle='#ff5f56';ctx.textAlign='center';ctx.font='600 17px monospace';
+    ctx.fillText('PROCESS KILLED — score: '+score,canvas.width/2,canvas.height/2-12);
+    ctx.fillStyle='#8b949e';ctx.font='13px monospace';
+    ctx.fillText('press RESET to restart',canvas.width/2,canvas.height/2+14);
   }
 }
 
-function startGame() {
-  if (dead) return;
-  if (!running) {
-    running = true;
-    clearInterval(interval);
-    interval = setInterval(step, 190);
-    document.getElementById('status-val').textContent = 'RUNNING';
-    document.getElementById('status-val').style.color  = '#00ff88';
+function startGame(){
+  if(dead) return;
+  if(!running){
+    running=true;clearInterval(interval);interval=setInterval(step,190);
+    document.getElementById('status-val').textContent='RUNNING';
+    document.getElementById('status-val').style.color='#00ff88';
     document.getElementById('btn-start').classList.add('active');
     document.getElementById('btn-pause').classList.remove('active');
   }
 }
-
-document.getElementById('btn-start').addEventListener('click', startGame);
-
-document.getElementById('btn-pause').addEventListener('click', ()=>{
-  if (dead) return;
-  paused = !paused;
-  document.getElementById('btn-pause').classList.toggle('active', paused);
-  document.getElementById('btn-start').classList.toggle('active', !paused);
-  document.getElementById('status-val').textContent = paused ? 'PAUSED' : 'RUNNING';
-  document.getElementById('status-val').style.color  = paused ? '#e3a928' : '#00ff88';
+document.getElementById('btn-start').addEventListener('click',startGame);
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  if(dead) return;
+  paused=!paused;
+  document.getElementById('btn-pause').classList.toggle('active',paused);
+  document.getElementById('btn-start').classList.toggle('active',!paused);
+  document.getElementById('status-val').textContent=paused?'PAUSED':'RUNNING';
+  document.getElementById('status-val').style.color=paused?'#e3a928':'#00ff88';
 });
-
-document.getElementById('btn-reset').addEventListener('click', ()=>{
-  clearInterval(interval); running=false;
+document.getElementById('btn-reset').addEventListener('click',()=>{
+  clearInterval(interval);running=false;
   document.getElementById('btn-start').classList.remove('active');
   document.getElementById('btn-pause').classList.remove('active');
   document.getElementById('status-val').textContent='IDLE';
   init();
 });
-
-document.addEventListener('keydown', e=>{
+document.addEventListener('keydown',e=>{
   const map={ArrowUp:{x:0,y:-1},ArrowDown:{x:0,y:1},ArrowLeft:{x:-1,y:0},ArrowRight:{x:1,y:0},
-             w:{x:0,y:-1},s:{x:0,y:1},a:{x:-1,y:0},d:{x:1,y:0},
-             W:{x:0,y:-1},S:{x:0,y:1},A:{x:-1,y:0},D:{x:1,y:0}};
-  if (map[e.key]) {
+    w:{x:0,y:-1},s:{x:0,y:1},a:{x:-1,y:0},d:{x:1,y:0},
+    W:{x:0,y:-1},S:{x:0,y:1},A:{x:-1,y:0},D:{x:1,y:0}};
+  if(map[e.key]){
     const nd=map[e.key];
-    if (nd.x !== -dir.x || nd.y !== -dir.y) nextDir=nd;
-    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
-    if (!running && !dead) startGame();
+    if(nd.x!== -dir.x||nd.y!== -dir.y) nextDir=nd;
+    if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
+    if(!running&&!dead) startGame();
   }
 });
-
 init();
 </script>
 </body>
