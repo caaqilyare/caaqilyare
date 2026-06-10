@@ -46,41 +46,6 @@ const caaqil = {
 
 ---
 
-## `$ cat /proc/projects`
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-### 🏗 CML IMEI Infrastructure
-```
-✅  Public Verification System
-✅  Police / Admin / Dukaan Modules
-✅  RBAC Authorization Layer
-✅  Tamper-Resistant Audit Logging
-✅  Payment-Controlled Actions
-✅  High-Concurrency Architecture
-✅  Device Ownership Tracking
-```
-
-</td>
-<td width="50%" valign="top">
-
-### 📊 Trading Analytics Engine
-```
-✅  Market Structure Detection
-✅  Liquidity Flow Analysis
-✅  ICT Logic Implementation
-✅  London / NY Session Models
-✅  Real-Time Processing Engine
-✅  Low Latency Signal Pipeline
-✅  Performance Backtesting
-```
-
-</td>
-</tr>
-</table>
-
 ---
 
 ## `$ lscpu --stack`
@@ -113,16 +78,6 @@ const caaqil = {
 <div align="center">
 
 [![GitHub Streak](https://streak-stats.demolab.com?user=caaqilyare&theme=github-dark-blue&hide_border=true&background=0d1117&ring=00ff88&fire=00ff88&currStreakLabel=00ff88&sideLabels=8b949e&dates=8b949e)](https://github.com/caaqilyare)
-
-</div>
-
----
-
-## `$ cat /etc/trophies.conf`
- 
-<div align="center">
-
-[![Trophies](https://github-profile-trophy.vercel.app/?username=caaqilyare&theme=algolia&no-frame=true&column=4&margin-w=8&margin-h=8)](https://github.com/caaqilyare)
 
 </div>
 
