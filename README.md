@@ -11,13 +11,13 @@
 
 # ⚡ CAAQIL
 
-### Backend Engineer • System Architect • Problem Solver
+### Backend Engineer • System Architect • Production Systems Builder
 
-<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=24&duration=2500&pause=1000&center=true&vCenter=true&width=900&lines=Building+Production+Grade+Systems;Designing+Scalable+Architectures;Node.js+%7C+TypeScript+%7C+MySQL;Security+%7C+Performance+%7C+Reliability;Trading+Infrastructure+Developer" />
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=24&duration=2500&pause=1000&center=true&vCenter=true&width=900&lines=Building+Scalable+Distributed+Systems;Node.js+%7C+TypeScript+%7C+MySQL+%7C+Redis;Trading+Infrastructure+%7C+Low+Latency+Systems;Security+%7C+Performance+%7C+Reliability;Production-Grade+Engineering+Mindset" />
 
 <br/>
 
-<img src="https://komarev.com/ghpvc/?username=caaqilyare&style=for-the-badge"/>
+<img src="https://komarev.com/ghpvc/?username=caaqilyare&style=for-the-badge&color=0e75b6"/>
 
 </div>
 
@@ -27,10 +27,11 @@
 SYSTEM STATUS
 ─────────────────────────────────────────────
 Role      : Backend Engineer
-Focus     : Distributed Systems
-Stack     : Node.js / TypeScript / MySQL
-Interest  : Trading Infrastructure
-Mission   : Build Systems That Survive Production
+Focus     : Distributed + High-Scale Systems
+Stack     : Node.js / TypeScript / MySQL / Redis
+Domain    : Trading + IMEI Infrastructure
+Philosophy: Failure-aware System Design
+Target    : 100K+ Concurrent Users Ready
 ─────────────────────────────────────────────
 ```
 
