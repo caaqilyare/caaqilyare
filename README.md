@@ -146,8 +146,18 @@ currently:
 
 ---
 
+### 🐍 Contribution Snake
+
+<picture align="center">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/platane/platane/output/github-contribution-grid-snake-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/platane/platane/output/github-contribution-grid-snake.svg">
+  <img alt="github contribution grid snake" src="https://raw.githubusercontent.com/platane/platane/output/github-contribution-grid-snake.svg">
+</picture>
+
+---
+
 <p align="center">
-  <img src="https://api.visitorbadge.io/api/visitors?path=caaqilyare&label=VISITORS&countColor=%236C63FF&labelStyle=upper" alt="Visitor Counter"/>
+  <img src="https://profile-counter.glitch.me/caaqilyare/count.svg" alt="Visitor Counter"/>
   <br><br>
   <sub>✦ crafted with precision ✦</sub>
 </p>
