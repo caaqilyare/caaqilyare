@@ -147,7 +147,7 @@ currently:
 ---
 
 <p align="center">
-  <img src="https://visitcount.itsvg.in/api?id=caaqilyare&icon=2&color=6" alt="Visitor Counter"/>
+  <img src="https://api.visitorbadge.io/api/visitors?path=caaqilyare&label=VISITORS&countColor=%236C63FF&labelStyle=upper" alt="Visitor Counter"/>
   <br><br>
   <sub>✦ crafted with precision ✦</sub>
 </p>
