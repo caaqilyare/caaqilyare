@@ -140,8 +140,10 @@ currently:
 
 ---
 
+### 📈 Activity Graph
+
 <p align="center">
-  <img src="https://github-profile-trophy.vercel.app/?username=caaqilyare&theme=radical&row=2&column=4&margin-w=15&margin-h=15&title_color=6C63FF&text_color=c9d1d9" />
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=caaqilyare&theme=react-dark&bg_color=0D1117&color=6C63FF&line=6C63FF&point=c9d1d9&area=true&hide_border=true&custom_title=Contribution+Graph" width="100%" />
 </p>
 
 ---
