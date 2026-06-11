@@ -141,7 +141,7 @@ currently:
 ---
 
 <p align="center">
-  <img src="https://github-profile-trophy.vercel.app/?username=caaqilyare&theme=radical&no-frame=true&no-bg=true&row=2&column=4&margin-w=15&margin-h=15" />
+  <img src="https://github-profile-trophy.vercel.app/?username=caaqilyare&theme=radical&row=2&column=4&margin-w=15&margin-h=15&title_color=6C63FF&text_color=c9d1d9" />
 </p>
 
 ---
