@@ -56,7 +56,7 @@ currently:
 
 ---
 
-### ⚡ Tech Arsenal
+### ⚡ Tech 
 
 <p align="center">
   <img src="https://img.shields.io/badge/TypeScript-0D1117?style=for-the-badge&logo=typescript&logoColor=6C63FF" />
