@@ -157,7 +157,7 @@ currently:
 ---
 
 <p align="center">
-  <img src="https://profile-counter.glitch.me/caaqilyare/count.svg" alt="Visitor Counter"/>
+  <img src="https://visitor-badge.laobi.icu/badge?page_id=caaqilyare&left_color=0D1117&right_color=6C63FF&left_text=Visitors" alt="Visitor Counter"/>
   <br><br>
   <sub>✦ crafted with precision ✦</sub>
 </p>
